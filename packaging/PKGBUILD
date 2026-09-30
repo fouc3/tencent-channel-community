@@ -1,4 +1,4 @@
-# Maintainer: 本次 DSH 会话本地重打包（不入 AUR）
+# Maintainer: fouc3 <128873818+fouc3@users.noreply.github.com>
 # 上游为 npm 预编译二进制（Go 静态链接），无公开源码仓库，故按 -bin 惯例重打包。
 pkgname=tencent-channel-cli-bin
 pkgver=1.0.10
