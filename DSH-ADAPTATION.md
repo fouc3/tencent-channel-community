@@ -1,7 +1,7 @@
 # DSH 适配说明（本副本相对上游的改动）
 
 - **上游来源**：<https://github.com/tencent-connect/tencent-channel-community>（clone 到 commit `06a726b`，2026-04-29，Skill 版本 1.1.5，`_meta.json` slug `tencent-channel-community`）
-- **目标环境**：DSH（DeepSeek Harness），Arch Linux，node v26.10.0 / npm 12.1.0，npm 全局前缀 `/usr`，sudo 免密
+- **目标环境**：DSH（DeepSeek Harness），Arch Linux，node v26.10.0 / npm 12.1.0，npm 全局前缀 `/usr`、需 sudo
 - **Skill 安装位置**：`~/.dsh/skills/tencent-channel-community/`（DSH 用户级 Skill 根目录；DSH 按目录包读取 `SKILL.md` + `references/`）
 - **CLI**：`tencent-channel-cli` 1.0.10，已由本机 pacman 本地包 **`tencent-channel-cli-bin-1.0.10-1`** 安装到 `/usr/bin/tencent-channel-cli`（来源与 PKGBUILD 见 `packaging/`）
 

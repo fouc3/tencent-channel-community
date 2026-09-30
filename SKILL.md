@@ -19,7 +19,7 @@ homepage: https://connect.qq.com/ai
 运行环境：**DSH（DeepSeek Harness）**，本机 Linux。上游该 Skill 面向 OpenClaw，两者有几处硬差异：
 
 1. **安装位置**：本技能装在 `~/.dsh/skills/tencent-channel-community/`（DSH 用户级 Skill 目录）。正文中的 `references/*.md` 一律相对本技能目录解析；改动技能内容（含更新 Skill 版本）要写该目录。
-2. **CLI 安装（本机已用本机 pacman 本地包解决，不用再动 npm）**：已打包安装为 `tencent-channel-cli-bin 1.0.10-1` → `/usr/bin/tencent-channel-cli`；PKGBUILD 与来源说明见本技能目录 `packaging/`。本机 sudo 免密，`sudo pacman -U <包文件>` 可直接安装。
+2. **CLI 安装（本机已用本机 pacman 本地包解决，不用再动 npm）**：已打包安装为 `tencent-channel-cli-bin 1.0.10-1` → `/usr/bin/tencent-channel-cli`；PKGBUILD 与来源说明见本技能目录 `packaging/`。用 `sudo pacman -U <包文件>` 安装即可。
    - 查版本：`pacman -Q tencent-channel-cli-bin`；查装了哪些文件：`pacman -Ql tencent-channel-cli-bin`。
    - 升级：`npm view tencent-channel-cli version` 看上游新版 → 改 `packaging/PKGBUILD` 的 `pkgver` 与 `sha256sums` → `makepkg -f` → `sudo pacman -U ...`。
    - **不要**再用 `npm install -g tencent-channel-cli`：本机 npm 全局前缀是 `/usr`，那样装会绕过 pacman 的包管理。
