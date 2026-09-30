@@ -1,3 +1,9 @@
+> **本分支 `dsh-adaptation` 是 DSH（DeepSeek Harness）适配版**：在上游 Skill 1.1.5 基础上做了环境适配（技能目录、CLI 安装方式、凭证/登录、通知能力、更新检查等），改动清单与实测依据见 [`DSH-ADAPTATION.md`](./DSH-ADAPTATION.md)，配套 CLI 的 pacman 打包见 [`packaging/`](./packaging/) 与 https://github.com/fouc3/tencent-channel-cli-pkgbuild 。
+>
+> `master` 分支与上游保持同步，适配改动只落在本分支。
+
+---
+
 # tencent-channel-community
 
 <p align="center">

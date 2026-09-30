@@ -1,0 +1,60 @@
+# Maintainer: 本次 DSH 会话本地重打包（不入 AUR）
+# 上游为 npm 预编译二进制（Go 静态链接），无公开源码仓库，故按 -bin 惯例重打包。
+pkgname=tencent-channel-cli-bin
+pkgver=1.0.10
+pkgrel=1
+pkgdesc="腾讯频道(QQ频道)命令行工具 tencent-channel-cli（上游 npm 预编译二进制重打包）"
+arch=('x86_64')
+url="https://connect.qq.com/ai"
+# 上游 npm 包未声明 license 字段；按 Arch 规则用 LicenseRef- 前缀标记自定义许可，权属归腾讯
+license=('LicenseRef-custom')
+depends=()
+optdepends=('gnome-keyring: 将登录凭证存入系统密钥链；缺失时降级存储到 ~/.qqcli/.env')
+provides=('tencent-channel-cli')
+conflicts=('tencent-channel-cli')
+options=('!strip' '!debug')   # 上游已是 stripped 静态二进制，重打包无需再处理
+_srcname="tencent-channel-cli-linux-x64"
+source=("${_srcname}-${pkgver}.tgz::https://registry.npmjs.org/${_srcname}/-/${_srcname}-${pkgver}.tgz")
+sha256sums=('d0507e6377171de3046f325c5bb2ab3460d25f39b14683127590fbaf457ee60b')
+
+package() {
+  install -Dm755 "${srcdir}/package/bin/tencent-channel-cli" "${pkgdir}/usr/bin/tencent-channel-cli"
+
+  # LicenseRef-custom 要求随包提供许可文件（上游未提供许可文本，这里说明权属）
+  mkdir -p "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" <<'EOF'
+上游 tencent-channel-cli（npm 包 tencent-channel-cli-linux-x64@1.0.10 内嵌的 Go 二进制）
+未声明任何许可证文本。本包只是本地重打包，不对上游代码/二进制主张任何权利；
+该二进制的全部权利归腾讯（Tencent）及其关联方所有。
+
+使用前请自行确认上游授权条款：https://connect.qq.com/ai
+EOF
+
+  mkdir -p "${pkgdir}/usr/share/doc/${pkgname}"
+  cat > "${pkgdir}/usr/share/doc/${pkgname}/PROVENANCE.md" <<'EOF'
+# 来源与打包说明
+
+本包是**预编译二进制重打包**（非源码编译），内容来自 npm 上游：
+
+- 上游包：`tencent-channel-cli-linux-x64@1.0.10`
+- 下载地址：https://registry.npmjs.org/tencent-channel-cli-linux-x64/-/tencent-channel-cli-linux-x64-1.0.10.tgz
+- sha256：`d0507e6377171de3046f325c5bb2ab3460d25f39b14683127590fbaf457ee60b`
+- 安装内容：仅该包内 `bin/tencent-channel-cli`（Go 静态链接、已 stripped，无运行时依赖），安装为 `/usr/bin/tencent-channel-cli`
+- 元包 `tencent-channel-cli`（npm wrapper，靠 optionalDependencies 选平台包）未使用：它只是 node 转发脚本，本机不需要
+
+相关上游项目：
+
+- Skill（提示词/文档）：https://github.com/tencent-connect/tencent-channel-community
+- 官方入口：https://connect.qq.com/ai
+
+## 升级方式
+
+```bash
+# 查最新版本
+npm view tencent-channel-cli version
+# 上游发新版后，改 PKGBUILD 里的 pkgver 与 sha256sums，重新 makepkg -f
+```
+
+上游 npm 包未声明 license 字段；本包 license=LicenseRef-custom，权属归腾讯。
+EOF
+}

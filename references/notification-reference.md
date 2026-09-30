@@ -1,10 +1,21 @@
 # 频道消息通知参考
 
+> ## ⛔ DSH 环境阅读须知（本副本新增）
+>
+> 本机运行在 **DSH（DeepSeek Harness）**，**没有 OpenClaw**（`/usr/bin/openclaw`、`/opt/homebrew/bin/openclaw` 均不存在），DSH 也没有 `session_status` 工具。因此本文件描述的**自动推送链路在本环境整体不可用**：
+>
+> - **不要**执行 `notices-on --session-key ...`（只会得到 `unsupported` / `platform=other`），**不要**自行拼接或编造 sessionKey（上游要求的 `agent:<id>:` 格式与 DSH 的 `DSH_SESSION_ID` 不兼容）。
+> - `setup_hint` / `subscribe_hint` 出现时**只如实告知用户“本环境不支持自动推送通知”**，不要执行其中命令。
+> - **不要**启动 `notify-daemon`（`nohup ... notify-daemon &`）等长驻后台进程：DSH 不保证其存活，且会留孤儿进程。
+> - `--ref <编号>` 依赖本地通知记录（由 daemon 拉取写入）；没有 daemon 时通常为空，报错请改用显式参数（`comment_id` / `guild_id` / `tiny_id`），或引导用户用 `feed get-notices` 查互动消息（该命令独立可用，不依赖订阅）。
+> - 本地文件都在 `~/.qqcli/` 下，**在 DSH 默认沙箱（workspace-write）中不可写**，相关命令会静默失败；详见 SKILL.md「DSH 环境适配」第 3 条。
+> - 本文件第三～九节保留上游原文，仅作**原理参考**（时序图、水位线模型等），不代表本环境能照此执行。
+
 ## 一、概述
 
 频道消息通知覆盖所有频道级通知，包括帖子互动（点赞/评论/回复/@）、系统消息（加入申请等）、私信通知等。
 
-> ⚠️ **当前仅支持 OpenClaw 平台**，非 OpenClaw 环境下无法自动推送通知。
+> ⚠️ **仅支持 OpenClaw 平台**，非 OpenClaw 环境（含本机 DSH）无法自动推送通知。
 
 ## 二、命令路由表
 
